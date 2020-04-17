@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/sprites/knight_anim.png" type="Texture" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
 [ext_resource path="res://entities/Camera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/default_envi.tres" type="Environment" id=4]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "atk"
 length = 0.4
 tracks/0/type = "bezier"
@@ -33,7 +33,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "idle"
 length = 0.5
 loop = true
@@ -48,7 +48,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 )
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "run"
 length = 1.2
 loop = true
@@ -65,8 +65,11 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 }
 
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.352136, 0.393471, 0.0566769 )
+
 [sub_resource type="BoxShape" id=5]
-extents = Vector3( 0.297206, 0.393471, 0.0566769 )
+extents = Vector3( 0.488114, 0.332299, 0.206765 )
 
 [node name="Player" type="RigidBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.512109, 0 )
@@ -76,9 +79,9 @@ axis_lock_angular_z = true
 script = ExtResource( 2 )
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/atk = SubResource( 2 )
-anims/idle = SubResource( 3 )
-anims/run = SubResource( 4 )
+anims/atk = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/run = SubResource( 3 )
 
 [node name="sprite" type="Sprite3D" parent="."]
 transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -0.079, 0, 0 )
@@ -96,4 +99,16 @@ doppler_tracking = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.406918, 0 )
+shape = SubResource( 4 )
+
+[node name="trigger_attack" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.485511, 0.146682, 0 )
+monitoring = false
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="trigger_attack"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.551222, 0.309413, 0 )
 shape = SubResource( 5 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="body_entered" from="trigger_attack" to="." method="_on_trigger_attack_body_entered"]
