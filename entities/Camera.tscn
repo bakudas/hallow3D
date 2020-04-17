@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Environment" id=1]
+ambient_light_color = Color( 0.917647, 0.901961, 0.960784, 1 )
+adjustment_brightness = 1.35
+adjustment_contrast = 0.74
+
+[node name="Camera" type="Camera"]
+transform = Transform( -1, -1.77466e-07, 2.73274e-07, 0, 0.838671, 0.544639, -3.25841e-07, 0.544639, -0.838671, 1.269, 5, -8.596 )
+keep_aspect = 0
+environment = SubResource( 1 )
+current = true
+fov = 99.3
