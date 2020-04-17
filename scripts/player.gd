@@ -5,6 +5,8 @@ export(int, 5, 10) var speed : int = 7
 var _motion : Vector3 = Vector3.ZERO
 var _direction : int = 1 setget set_direction, get_direction
 var _attack : bool = false setget set_attack, get_attack
+var anim_prev : String
+var anim_cur : String setget set_current_animation, get_current_animation
 
 
 func _physics_process(delta) -> void:
@@ -46,12 +48,24 @@ func _controls(delta) -> void:
 ##
 ## handling with animations
 func _animations() -> void:
+	
 	if get_motion() == Vector3.ZERO and !get_attack():
-		$anim.play("idle")
+		set_current_animation("idle")
 	elif get_motion() != Vector3.ZERO and !get_attack():
-		$anim.play("run")
+		set_current_animation("run")
 	else:
-		$anim.play("atk")
+		set_current_animation("atk")
+
+
+func set_current_animation(anim:String):
+	anim_prev = get_current_animation()
+	anim_cur = anim
+	$anim.play(anim_cur)
+
+
+func get_current_animation() -> String:
+	anim_cur = $anim.get_current_animation()
+	return anim_cur
 
 
 ##
